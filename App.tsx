@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import MarkdownIt from "markdown-it";
-const md = new MarkdownIt();
+import MarkdownRenderer from "./src/components/MarkdownRenderer";
 
 export default function App() {
   const [text, setText] = useState("");
-
-  let result = md.render(text);
 
   return (
     <View style={styles.container}>
@@ -17,10 +14,7 @@ export default function App() {
         onChangeText={(text) => setText(text)}
         defaultValue={text}
       />
-      <div
-        style={{ padding: 10, fontSize: 42 }}
-        dangerouslySetInnerHTML={{ __html: result }}
-      />
+      <MarkdownRenderer markdown={text} />
     </View>
   );
 }
