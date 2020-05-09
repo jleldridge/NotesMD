@@ -11,7 +11,7 @@ export default function MarkdownRender(props: Props) {
   let result = md.render(props.markdown);
   return (
     <div
-      style={{ padding: 10, fontSize: 42 }}
+      style={{ padding: 10, fontSize: 24 }}
       dangerouslySetInnerHTML={{ __html: result }}
     />
   );

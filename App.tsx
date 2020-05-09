@@ -1,20 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import MarkdownRenderer from "./src/components/MarkdownRenderer";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Note from "./src/components/Note";
 
 export default function App() {
-  const [text, setText] = useState("");
-
   return (
     <View style={styles.container}>
-      <TextInput
-        style={{ height: 100 }}
-        placeholder="Type your markdown here!"
-        multiline={true}
-        onChangeText={(text) => setText(text)}
-        defaultValue={text}
-      />
-      <MarkdownRenderer markdown={text} />
+      <Note />
     </View>
   );
 }
