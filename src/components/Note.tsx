@@ -7,13 +7,13 @@ export default function Note() {
   const [renderMarkdown, setRenderMarkdown] = useState(false);
 
   return (
-    <View style={styles.noteContainer}>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.noteContainer}>
         {renderMarkdown ? (
           <MarkdownRenderer markdown={text} width={400} height={200} />
         ) : (
           <TextInput
-            style={{ width: 400, height: 200, padding: 10 }}
+            style={styles.markdownInput}
             placeholder="Type your markdown here!!"
             onChangeText={(text) => setText(text)}
             defaultValue={text}
@@ -23,6 +23,7 @@ export default function Note() {
       </View>
       <Switch
         value={renderMarkdown}
+        style={styles.renderMarkdownSwitch}
         onValueChange={() => setRenderMarkdown(!renderMarkdown)}
       />
     </View>
@@ -30,9 +31,24 @@ export default function Note() {
 }
 
 const styles = StyleSheet.create({
-  noteContainer: {
+  container: {
     backgroundColor: "#FFFB82",
     width: 420,
-    height: 230,
+    height: 255,
+  },
+
+  noteContainer: {
+    margin: 10,
+  },
+
+  markdownInput: {
+    width: 400,
+    height: 200,
+    padding: 10,
+  },
+
+  renderMarkdownSwitch: {
+    alignSelf: "flex-end",
+    marginRight: 10,
   },
 });
