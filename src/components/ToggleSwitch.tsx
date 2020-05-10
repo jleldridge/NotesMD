@@ -1,16 +1,11 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Switch, Text } from "react-native";
 
 type Props = {
   on: boolean;
-  changed: (event: React.ChangeEvent) => void;
+  changed: () => void;
 };
 
 export default function ToggleSwitch(props: Props) {
-  return (
-    <label className="switch">
-      <input type="checkbox" checked={props.on} onChange={props.changed} />
-      <span className="slider round"></span>
-    </label>
-  );
+  return <Switch value={props.on} onValueChange={props.changed} />;
 }

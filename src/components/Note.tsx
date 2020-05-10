@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextInput } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
 import MarkdownRenderer from "./MarkdownRenderer";
 import ToggleSwitch from "./ToggleSwitch";
 
@@ -8,26 +8,36 @@ export default function Note() {
   const [renderMarkdown, setRenderMarkdown] = useState(false);
 
   return (
-    <div>
-      <div>
+    <View style={styles.noteContainer}>
+      <View>
         {renderMarkdown ? (
-          <MarkdownRenderer markdown={text} />
+          <MarkdownRenderer markdown={text} width={400} height={200} />
         ) : (
           <TextInput
-            style={{ height: 100 }}
+            style={{ width: 400, height: 200, padding: 10 }}
             placeholder="Type your markdown here!!"
             onChangeText={(text) => setText(text)}
             defaultValue={text}
             multiline={true}
           />
         )}
-      </div>
+      </View>
       <ToggleSwitch
         on={renderMarkdown}
-        changed={(event: React.ChangeEvent) => {
+        changed={() => {
           setRenderMarkdown(!renderMarkdown);
         }}
       />
-    </div>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  noteContainer: {
+    backgroundColor: "#FFFB82",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 420,
+    height: 230,
+  },
+});

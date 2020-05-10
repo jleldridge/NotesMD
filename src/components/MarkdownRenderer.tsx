@@ -1,18 +1,24 @@
 import React from "react";
-import MarkdownIt from "markdown-it";
-
-const md = new MarkdownIt();
+import { ScrollView } from "react-native";
+import Markdown from "react-native-markdown-renderer";
 
 type Props = {
   markdown: string;
+  height: number;
+  width: number;
 };
 
 export default function MarkdownRender(props: Props) {
-  let result = md.render(props.markdown);
+  console.log(props.width, props.height);
   return (
-    <div
-      style={{ padding: 10, fontSize: 24 }}
-      dangerouslySetInnerHTML={{ __html: result }}
-    />
+    <ScrollView
+      style={{
+        padding: 10,
+        width: props.width,
+        height: props.height,
+      }}
+    >
+      <Markdown>{props.markdown}</Markdown>
+    </ScrollView>
   );
 }
