@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { StyleSheet, Switch, TextInput, View } from "react-native";
 import MarkdownRenderer from "./MarkdownRenderer";
 
-export default function Note() {
+type Props = {
+  editing: boolean;
+};
+
+export default function Note(props: Props) {
   const [text, setText] = useState("");
   const [renderMarkdown, setRenderMarkdown] = useState(false);
 
   return (
     <View style={styles.container}>
       <View style={styles.noteContainer}>
-        {renderMarkdown ? (
+        {renderMarkdown || !props.editing ? (
           <MarkdownRenderer markdown={text} width={400} height={200} />
         ) : (
           <TextInput
@@ -21,11 +25,13 @@ export default function Note() {
           />
         )}
       </View>
-      <Switch
-        value={renderMarkdown}
-        style={styles.renderMarkdownSwitch}
-        onValueChange={() => setRenderMarkdown(!renderMarkdown)}
-      />
+      {props.editing && (
+        <Switch
+          value={renderMarkdown}
+          style={styles.renderMarkdownSwitch}
+          onValueChange={() => setRenderMarkdown(!renderMarkdown)}
+        />
+      )}
     </View>
   );
 }

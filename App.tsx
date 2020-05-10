@@ -5,7 +5,7 @@ import Note from "./src/components/Note";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Note />
+      <Note editing={true} />
     </View>
   );
 }
