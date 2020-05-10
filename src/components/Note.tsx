@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { TextInput, StyleSheet, View } from "react-native";
+import { StyleSheet, Switch, TextInput, View } from "react-native";
 import MarkdownRenderer from "./MarkdownRenderer";
-import ToggleSwitch from "./ToggleSwitch";
 
 export default function Note() {
   const [text, setText] = useState("");
@@ -22,11 +21,9 @@ export default function Note() {
           />
         )}
       </View>
-      <ToggleSwitch
-        on={renderMarkdown}
-        changed={() => {
-          setRenderMarkdown(!renderMarkdown);
-        }}
+      <Switch
+        value={renderMarkdown}
+        onValueChange={() => setRenderMarkdown(!renderMarkdown)}
       />
     </View>
   );
@@ -35,8 +32,6 @@ export default function Note() {
 const styles = StyleSheet.create({
   noteContainer: {
     backgroundColor: "#FFFB82",
-    alignItems: "center",
-    justifyContent: "center",
     width: 420,
     height: 230,
   },
