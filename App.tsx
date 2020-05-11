@@ -1,12 +1,16 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { StyleSheet, View } from "react-native";
-import Note from "./src/components/Note";
+import NotesList from "./src/components/NotesList";
+import store from "./src/redux/store";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Note editing={true} />
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        <NotesList />
+      </View>
+    </Provider>
   );
 }
 
@@ -16,5 +20,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  note: {
+    margin: 20,
   },
 });
