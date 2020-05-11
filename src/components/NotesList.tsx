@@ -7,18 +7,19 @@ import { RootState, Note as TNote } from "../types";
 
 export default function NotesList() {
   const notes = useSelector((state: RootState) => state.notes);
+  const editingNoteId = useSelector((state: RootState) => state.editingNoteId);
   const dispatch = useDispatch();
   const onAddNote = useCallback(() => {
-    dispatch(addNote(true, ""));
+    dispatch(addNote());
   }, [dispatch]);
 
   return (
     <View>
       <FlatList
-        data={notes}
+        data={Object.values(notes)}
         renderItem={({ item }) => (
           <View style={styles.note}>
-            <Note editing={item.editing} content={item.content} />
+            <Note editing={item.id === editingNoteId} content={item.content} />
           </View>
         )}
       />

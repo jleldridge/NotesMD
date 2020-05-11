@@ -1,5 +1,8 @@
-export const addNote = (editing: boolean, content: string) => ({
+export const addNote = () => ({
   type: "ADD_NOTE",
-  editing,
-  content,
+});
+
+export const setEditingNote = (id: string) => ({
+  type: "SET_EDITING_NOTE",
+  id,
 });

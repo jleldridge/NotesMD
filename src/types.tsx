@@ -1,8 +1,11 @@
 export type Note = {
+  name: string;
+  createdAt: string;
   content: string;
-  editing: boolean;
+  id: string;
 };
 
 export type RootState = {
-  notes: Note[];
+  notes: { [id: string]: Note };
+  editingNoteId: string;
 };
