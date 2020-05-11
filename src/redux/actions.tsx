@@ -2,7 +2,7 @@ export const addNote = () => ({
   type: "ADD_NOTE",
 });
 
-export const setEditingNote = (id: string) => ({
-  type: "SET_EDITING_NOTE",
-  id,
+export const setCurrentNote = (name: string) => ({
+  type: "SET_CURRENT_NOTE",
+  name,
 });

@@ -1,27 +1,48 @@
-import React, { useState } from "react";
-import { StyleSheet, Switch, TextInput, View } from "react-native";
+import React, { useState, useCallback } from "react";
+import {
+  StyleSheet,
+  Switch,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+} from "react-native";
+import { useDispatch } from "react-redux";
 import MarkdownRenderer from "./MarkdownRenderer";
+import { Note as TNote } from "../types";
+import { setCurrentNote } from "../redux/actions";
 
 type Props = {
   editing: boolean;
-  content: string;
+  note: TNote;
 };
 
 export default function Note(props: Props) {
-  const [text, setText] = useState(props.content);
+  const [content, setContent] = useState(props.note.content);
+  const [name, setName] = useState(props.note.name);
   const [renderMarkdown, setRenderMarkdown] = useState(false);
+
+  const dispatch = useDispatch();
+  const onTouchNote = useCallback(() => {
+    dispatch(setCurrentNote(props.note.name));
+  }, [dispatch]);
 
   return props.editing ? (
     <View style={styles.editingContainer}>
+      <TextInput
+        style={styles.noteTitle}
+        defaultValue={name}
+        onChangeText={(text) => setName(text)}
+      />
       <View style={styles.noteContainer}>
         {renderMarkdown ? (
-          <MarkdownRenderer markdown={text} style={styles.markdownLarge} />
+          <MarkdownRenderer markdown={content} style={styles.markdownLarge} />
         ) : (
           <TextInput
             style={styles.markdownInput}
             placeholder="Type your markdown here!!"
-            onChangeText={(text) => setText(text)}
-            defaultValue={text}
+            onChangeText={(text) => setContent(text)}
+            defaultValue={content}
             multiline={true}
           />
         )}
@@ -33,9 +54,15 @@ export default function Note(props: Props) {
       />
     </View>
   ) : (
-    <View style={styles.notEditingContainer}>
-      <MarkdownRenderer markdown={text} style={styles.markdownSmall} />
-    </View>
+    <TouchableHighlight onPress={onTouchNote}>
+      <View style={styles.notEditingContainer}>
+        <Text>{props.note.name}</Text>
+        <MarkdownRenderer
+          markdown={props.note.content}
+          style={styles.markdownSmall}
+        />
+      </View>
+    </TouchableHighlight>
   );
 }
 
@@ -43,7 +70,7 @@ const styles = StyleSheet.create({
   editingContainer: {
     backgroundColor: "#FFFB82",
     width: 420,
-    height: 255,
+    height: 300,
   },
 
   markdownLarge: {
@@ -66,6 +93,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
+  noteTitle: {
+    width: 400,
+    height: 200,
+    padding: 10,
+    fontSize: 24,
+  },
+
   renderMarkdownSwitch: {
     alignSelf: "flex-end",
     marginRight: 10,
@@ -74,6 +108,6 @@ const styles = StyleSheet.create({
   notEditingContainer: {
     backgroundColor: "#FFFB82",
     width: 210,
-    height: 127.5,
+    height: 150,
   },
 });

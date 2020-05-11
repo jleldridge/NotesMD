@@ -1,26 +1,25 @@
 import { createStore } from "redux";
 import { RootState } from "../types";
-import { v4 as uuid } from "uuid";
+import getUniqueName from "../utilities/UniqueNameResolver";
 
 const EMPTY_STATE = {
   notes: {},
-  editingNoteId: "",
+  currentNote: "",
 };
 
 function reduce(state: RootState = EMPTY_STATE, action: any) {
   switch (action.type) {
     case "ADD_NOTE":
       let notes = { ...state.notes };
-      let id = uuid();
-      notes[id] = {
+      const name = getUniqueName(state);
+      notes[name] = {
         content: "",
-        name: "",
-        id,
+        name,
         createdAt: Date.now().toString(),
       };
-      return { ...state, notes, editingNoteId: id };
-    case "SET_EDITING_NOTE":
-      return { ...state, editingNoteId: action.id };
+      return { ...state, notes, currentNote: name };
+    case "SET_CURRENT_NOTE":
+      return { ...state, currentNote: action.name };
     default:
       return state;
   }

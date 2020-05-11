@@ -7,11 +7,14 @@ import { RootState, Note as TNote } from "../types";
 
 export default function NotesList() {
   const notes = useSelector((state: RootState) => state.notes);
-  const editingNoteId = useSelector((state: RootState) => state.editingNoteId);
+  const currentNote = useSelector((state: RootState) => state.currentNote);
+
   const dispatch = useDispatch();
   const onAddNote = useCallback(() => {
     dispatch(addNote());
   }, [dispatch]);
+
+  console.log(notes, currentNote);
 
   return (
     <View>
@@ -19,7 +22,7 @@ export default function NotesList() {
         data={Object.values(notes)}
         renderItem={({ item }) => (
           <View style={styles.note}>
-            <Note editing={item.id === editingNoteId} content={item.content} />
+            <Note editing={item.name === currentNote} note={item} />
           </View>
         )}
       />
