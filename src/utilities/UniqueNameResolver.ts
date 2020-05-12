@@ -5,14 +5,14 @@ export default function getUniqueName(
   state: RootState,
   name = "New Note"
 ): string {
-  const { notes } = state;
-  if (!notes[name]) {
+  const { notesMap } = state;
+  if (notesMap[name] === undefined) {
     return name;
   }
 
   for (let i = 1; i < 10000; i++) {
     const newName = `${name} (${i})`;
-    if (!notes[newName]) {
+    if (notesMap[newName] === undefined) {
       return newName;
     }
   }

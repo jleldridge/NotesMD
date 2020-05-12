@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   Switch,
@@ -7,32 +7,55 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MarkdownRenderer from "./MarkdownRenderer";
-import { Note as TNote } from "../types";
-import { setCurrentNote } from "../redux/actions";
+import { Note as TNote, RootState } from "../types";
+import { setCurrentNote, saveNoteContent, renameNote } from "../redux/actions";
 
 type Props = {
-  editing: boolean;
-  note: TNote;
+  noteIndex: number;
 };
 
 export default function Note(props: Props) {
-  const [content, setContent] = useState(props.note.content);
-  const [name, setName] = useState(props.note.name);
+  const storedNoteName = useSelector(
+    (state: RootState) => state.notes[props.noteIndex].name
+  );
+  const storedNoteContent = useSelector(
+    (state: RootState) => state.notes[props.noteIndex].content
+  );
+  const editing = useSelector(
+    (state: RootState) => state.currentNote === storedNoteName
+  );
+
+  const [content, setContent] = useState(storedNoteContent);
+  const [name, setName] = useState(storedNoteName);
   const [renderMarkdown, setRenderMarkdown] = useState(false);
 
   const dispatch = useDispatch();
   const onTouchNote = useCallback(() => {
-    dispatch(setCurrentNote(props.note.name));
-  }, [dispatch]);
+    dispatch(setCurrentNote(storedNoteName));
+  }, [dispatch, storedNoteName]);
 
-  return props.editing ? (
+  const onChangeName = useCallback(
+    (text) => {
+      setName(text);
+      if (storedNoteName !== text) {
+        dispatch(renameNote(storedNoteName, text));
+      }
+    },
+    [dispatch, setName, storedNoteName]
+  );
+
+  useEffect(() => {
+    dispatch(saveNoteContent(storedNoteName, content));
+  }, [editing, content]);
+
+  return editing ? (
     <View style={styles.editingContainer}>
       <TextInput
         style={styles.noteTitle}
         defaultValue={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={onChangeName}
       />
       <View style={styles.noteContainer}>
         {renderMarkdown ? (
@@ -56,9 +79,9 @@ export default function Note(props: Props) {
   ) : (
     <TouchableHighlight onPress={onTouchNote}>
       <View style={styles.notEditingContainer}>
-        <Text>{props.note.name}</Text>
+        <Text>{storedNoteName}</Text>
         <MarkdownRenderer
-          markdown={props.note.content}
+          markdown={storedNoteContent}
           style={styles.markdownSmall}
         />
       </View>
