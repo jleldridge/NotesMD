@@ -67,8 +67,6 @@ function renameNote(
     notesMap[newName] = notesMap[oldName];
     note.name = newName;
     delete notesMap[oldName];
-    console.log("changed from", oldName, "to", newName);
-    console.log(notes);
     currentNote = newName;
   }
   // if newName is not unique and valid, don't change the stored name of the note.

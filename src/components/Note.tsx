@@ -17,11 +17,9 @@ type Props = {
 };
 
 export default function Note(props: Props) {
-  console.log("rerendering ", props.noteIndex);
   const storedNoteName = useSelector(
     (state: RootState) => state.notes[props.noteIndex].name
   );
-  console.log(storedNoteName);
   const storedNoteContent = useSelector(
     (state: RootState) => state.notes[props.noteIndex].content
   );
@@ -35,7 +33,6 @@ export default function Note(props: Props) {
 
   const dispatch = useDispatch();
   const onTouchNote = useCallback(() => {
-    console.log("touched note", storedNoteName);
     dispatch(setCurrentNote(storedNoteName));
   }, [dispatch, storedNoteName]);
 
