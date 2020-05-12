@@ -5,6 +5,7 @@ export type Note = {
 };
 
 export type RootState = {
-  notes: { [name: string]: Note };
+  notes: Note[];
+  notesMap: { [name: string]: number };
   currentNote: string;
 };

@@ -14,17 +14,17 @@ export default function NotesList() {
     dispatch(addNote());
   }, [dispatch]);
 
-  console.log(notes, currentNote);
-
   return (
     <View>
       <FlatList
-        data={Object.values(notes)}
-        renderItem={({ item }) => (
-          <View style={styles.note}>
-            <Note editing={item.name === currentNote} note={item} />
-          </View>
-        )}
+        data={notes}
+        renderItem={({ index }) => {
+          return (
+            <View style={styles.note}>
+              <Note noteIndex={index} />
+            </View>
+          );
+        }}
       />
       <Button onPress={onAddNote} title="Add Note" color="#841584" />
     </View>
