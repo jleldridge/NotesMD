@@ -23,7 +23,7 @@ export default function Note(props: Props) {
   if (!storedNote) return <Text>Error: No note found!</Text>;
 
   const editing = useSelector(
-    (state: RootState) => state.currentNote?.id === props.noteId
+    (state: RootState) => state.currentNoteId === props.noteId
   );
 
   const [content, setContent] = useState(storedNote.content || "");

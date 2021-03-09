@@ -1,6 +1,6 @@
 export type RootState = {
   notes: Map<string, Note>;
-  currentNote?: Note;
+  currentNoteId?: string;
 };
 
 export type Note = {

@@ -13,7 +13,7 @@ function reduce(state: RootState = EMPTY_STATE, action: any) {
     case "ADD_NOTE":
       return addNote(state);
     case "SET_CURRENT_NOTE":
-      return { ...state, currentNote: action.id };
+      return { ...state, currentNoteId: action.id };
     case "SAVE_NOTE":
       return saveNote(state, action.note);
     default:
@@ -33,7 +33,7 @@ function addNote(state: RootState): RootState {
   };
   notes.set(uuid, note);
 
-  return { ...state, notes, currentNote: note };
+  return { ...state, notes, currentNoteId: note.id };
 }
 
 function saveNote(state: RootState, note: Note): RootState {

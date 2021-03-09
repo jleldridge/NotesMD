@@ -27,7 +27,6 @@ export default function MarkdownRender(props: Props) {
           style={styles.markdownInput}
           onSelectionChange={({ nativeEvent: { selection } }) => {
             setSelection(selection);
-            console.log(selection);
           }}
           onChangeText={props.onChangeText}
           multiline={true}
