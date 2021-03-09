@@ -6,7 +6,9 @@ import Note from "./Note";
 import { RootState, Note as TNote } from "../types";
 
 export default function NotesList() {
-  const notes = useSelector((state: RootState) => state.notes);
+  const notes = useSelector((state: RootState) =>
+    Array.from(state.notes, ([_, v]) => v.id)
+  );
   const currentNote = useSelector((state: RootState) => state.currentNote);
 
   const dispatch = useDispatch();
@@ -18,10 +20,10 @@ export default function NotesList() {
     <View>
       <FlatList
         data={notes}
-        renderItem={({ index }) => {
+        renderItem={({ item }) => {
           return (
             <View style={styles.note}>
-              <Note noteIndex={index} />
+              <Note noteId={item} />
             </View>
           );
         }}

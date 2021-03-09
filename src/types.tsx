@@ -1,11 +1,11 @@
-export type Note = {
-  name: string;
-  createdAt: string;
-  content: string;
+export type RootState = {
+  notes: Map<string, Note>;
+  currentNote?: Note;
 };
 
-export type RootState = {
-  notes: Note[];
-  notesMap: { [name: string]: number };
-  currentNote: string;
+export type Note = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
 };

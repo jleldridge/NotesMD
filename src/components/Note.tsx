@@ -10,65 +10,68 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import MarkdownRenderer from "./MarkdownRenderer";
 import { Note as TNote, RootState } from "../types";
-import { setCurrentNote, saveNoteContent, renameNote } from "../redux/actions";
+import { setCurrentNote, saveNote } from "../redux/actions";
 
 type Props = {
-  noteIndex: number;
+  noteId: string;
 };
 
 export default function Note(props: Props) {
-  const storedNoteName = useSelector(
-    (state: RootState) => state.notes[props.noteIndex].name
+  const storedNote = useSelector((state: RootState) =>
+    state.notes.get(props.noteId)
   );
-  const storedNoteContent = useSelector(
-    (state: RootState) => state.notes[props.noteIndex].content
-  );
+  if (!storedNote) return <Text>Error: No note found!</Text>;
+
   const editing = useSelector(
-    (state: RootState) => state.currentNote === storedNoteName
+    (state: RootState) => state.currentNote?.id === props.noteId
   );
 
-  const [content, setContent] = useState(storedNoteContent);
-  const [name, setName] = useState(storedNoteName);
+  const [content, setContent] = useState(storedNote.content || "");
+  const [title, setTitle] = useState(storedNote.title || "");
   const [renderMarkdown, setRenderMarkdown] = useState(false);
 
   const dispatch = useDispatch();
   const onTouchNote = useCallback(() => {
-    dispatch(setCurrentNote(storedNoteName));
-  }, [dispatch, storedNoteName]);
+    dispatch(setCurrentNote(props.noteId));
+  }, [dispatch, props]);
 
-  const onChangeName = useCallback(
-    (text) => {
-      setName(text);
-      if (storedNoteName !== text) {
-        dispatch(renameNote(storedNoteName, text));
-      }
-    },
-    [dispatch, setName, storedNoteName]
-  );
+  // const onChangeTitle = useCallback(
+  //   (text) => {
+  //     setTitle(text);
+  //     if (storedNote.title !== text) {
+  //       dispatch(saveNote({ ...storedNote, title }));
+  //     }
+  //   },
+  //   [dispatch, saveNote, content]
+  // );
 
   useEffect(() => {
-    dispatch(saveNoteContent(storedNoteName, content));
-  }, [editing, content]);
+    dispatch(saveNote({ ...storedNote, content, title }));
+  }, [editing, title, content]);
 
   return editing ? (
     <View style={styles.editingContainer}>
       <TextInput
         style={styles.noteTitle}
-        defaultValue={name}
-        onChangeText={onChangeName}
+        defaultValue={title}
+        onChangeText={(text) => setTitle(text)}
       />
       <View style={styles.noteContainer}>
-        {renderMarkdown ? (
-          <MarkdownRenderer markdown={content} style={styles.markdownLarge} />
-        ) : (
-          <TextInput
-            style={styles.markdownInput}
-            placeholder="Type your markdown here!!"
-            onChangeText={(text) => setContent(text)}
-            defaultValue={content}
-            multiline={true}
-          />
-        )}
+        <MarkdownRenderer
+          markdown={content}
+          style={styles.markdownLarge}
+          editing={true}
+          onChangeText={(text) => setContent(text)}
+        />
+        {/* ) : (
+        //   <TextInput
+        //     style={styles.markdownInput}
+        //     placeholder="Type your markdown here!!"
+        //     onChangeText={(text) => setContent(text)}
+        //     defaultValue={content}
+        //     multiline={true}
+        //   />
+        // )*/}
       </View>
       <Switch
         value={renderMarkdown}
@@ -79,11 +82,8 @@ export default function Note(props: Props) {
   ) : (
     <TouchableHighlight onPress={onTouchNote}>
       <View style={styles.notEditingContainer}>
-        <Text>{storedNoteName}</Text>
-        <MarkdownRenderer
-          markdown={storedNoteContent}
-          style={styles.markdownSmall}
-        />
+        <Text>{title}</Text>
+        <MarkdownRenderer markdown={content} style={styles.markdownSmall} />
       </View>
     </TouchableHighlight>
   );
@@ -108,12 +108,6 @@ const styles = StyleSheet.create({
 
   noteContainer: {
     margin: 10,
-  },
-
-  markdownInput: {
-    width: 400,
-    height: 200,
-    padding: 10,
   },
 
   noteTitle: {
