@@ -9,7 +9,6 @@ export default function NotesList() {
   const notes = useSelector((state: RootState) =>
     Array.from(state.notes, ([_, v]) => v.id)
   );
-  const currentNote = useSelector((state: RootState) => state.currentNote);
 
   const dispatch = useDispatch();
   const onAddNote = useCallback(() => {
