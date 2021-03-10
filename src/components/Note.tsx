@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import MarkdownRenderer from "./MarkdownRenderer";
+import MarkdownRenderer from "./MarkdownEditor";
 import { Note as TNote, RootState } from "../types";
 import { setCurrentNote, saveNote } from "../redux/actions";
 
@@ -63,15 +63,6 @@ export default function Note(props: Props) {
           editing={true}
           onChangeText={(text) => setContent(text)}
         />
-        {/* ) : (
-        //   <TextInput
-        //     style={styles.markdownInput}
-        //     placeholder="Type your markdown here!!"
-        //     onChangeText={(text) => setContent(text)}
-        //     defaultValue={content}
-        //     multiline={true}
-        //   />
-        // )*/}
       </View>
       <Switch
         value={renderMarkdown}

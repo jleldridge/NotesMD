@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   style?: any;
 };
 
-export default function MarkdownRender(props: Props) {
+export default function MarkdownEditor(props: Props) {
   return (
     <ScrollView style={props.style}>
       {props.editing && (
