@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import MarkdownRenderer from "./MarkdownEditor";
+import MarkdownEditor from "./MarkdownEditor";
 import { Note as TNote, RootState } from "../types";
 import { setCurrentNote, saveNote } from "../redux/actions";
 
@@ -35,16 +35,6 @@ export default function Note(props: Props) {
     dispatch(setCurrentNote(props.noteId));
   }, [dispatch, props]);
 
-  // const onChangeTitle = useCallback(
-  //   (text) => {
-  //     setTitle(text);
-  //     if (storedNote.title !== text) {
-  //       dispatch(saveNote({ ...storedNote, title }));
-  //     }
-  //   },
-  //   [dispatch, saveNote, content]
-  // );
-
   useEffect(() => {
     dispatch(saveNote({ ...storedNote, content, title }));
   }, [editing, title, content]);
@@ -57,24 +47,19 @@ export default function Note(props: Props) {
         onChangeText={(text) => setTitle(text)}
       />
       <View style={styles.noteContainer}>
-        <MarkdownRenderer
+        <MarkdownEditor
           markdown={content}
           style={styles.markdownLarge}
           editing={true}
           onChangeText={(text) => setContent(text)}
         />
       </View>
-      <Switch
-        value={renderMarkdown}
-        style={styles.renderMarkdownSwitch}
-        onValueChange={() => setRenderMarkdown(!renderMarkdown)}
-      />
     </View>
   ) : (
     <TouchableHighlight onPress={onTouchNote}>
       <View style={styles.notEditingContainer}>
         <Text>{title}</Text>
-        <MarkdownRenderer markdown={content} style={styles.markdownSmall} />
+        <MarkdownEditor markdown={content} style={styles.markdownSmall} />
       </View>
     </TouchableHighlight>
   );
