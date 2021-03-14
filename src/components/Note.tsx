@@ -46,16 +46,11 @@ export default function Note(props: Props) {
         defaultValue={title}
         onChangeText={(text) => setTitle(text)}
       />
-      {/* <MarkdownEditor
+      <MarkdownEditor
         markdown={content}
         style={styles.markdownLarge}
         editing={true}
-        onChangeText={(text) => setContent(text)} */}
-      <TextInput
-        defaultValue={content}
-        style={styles.markdownLarge}
         onChangeText={(text) => setContent(text)}
-        multiline={true}
       />
     </View>
   ) : (
@@ -81,6 +76,7 @@ const styles = StyleSheet.create({
     flex: 3,
     margin: 5,
     backgroundColor: "#FFFFFF",
+    minHeight: 300,
   },
 
   markdownSmall: {

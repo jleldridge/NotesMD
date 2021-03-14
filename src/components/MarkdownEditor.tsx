@@ -1,5 +1,5 @@
-import React from "react";
-import { ScrollView, StyleSheet, TextInput } from "react-native";
+import React, { useCallback, useRef, RefObject } from "react";
+import { TouchableHighlight, StyleSheet, TextInput } from "react-native";
 
 type Props = {
   markdown: string;
@@ -9,22 +9,30 @@ type Props = {
 };
 
 export default function MarkdownEditor(props: Props) {
+  const inputElement: RefObject<TextInput> = useRef<TextInput>(null);
+
+  const onTouchEditor = () => {
+    inputElement?.current?.focus();
+  };
+
   return (
-    <ScrollView style={props.style}>
+    <TouchableHighlight onPress={onTouchEditor} style={props.style}>
       {props.editing && (
         <TextInput
+          ref={inputElement}
           value={props.markdown}
           style={styles.markdownInput}
           onChangeText={props.onChangeText}
           multiline={true}
         />
       )}
-    </ScrollView>
+    </TouchableHighlight>
   );
 }
 
 const styles = StyleSheet.create({
   markdownInput: {
-    position: "absolute",
+    backgroundColor: "#fff",
+    margin: 5,
   },
 });
