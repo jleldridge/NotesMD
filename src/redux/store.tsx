@@ -1,45 +1,45 @@
 import { createStore } from "redux";
 import { RootState } from "../types";
-import { Note } from "../types";
+import { Card } from "../types";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 const EMPTY_STATE = {
-  notes: new Map<string, Note>(),
+  cards: new Map<string, Card>(),
 };
 
 function reduce(state: RootState = EMPTY_STATE, action: any) {
   switch (action.type) {
-    case "ADD_NOTE":
-      return addNote(state);
-    case "SET_CURRENT_NOTE":
-      return { ...state, currentNoteId: action.id };
-    case "SAVE_NOTE":
-      return saveNote(state, action.note);
+    case "ADD_CARD":
+      return addCard(state);
+    case "SET_CURRENT_CARD":
+      return { ...state, currentCardId: action.id };
+    case "SAVE_CARD":
+      return saveCard(state, action.card);
     default:
       return state;
   }
 }
 
-function addNote(state: RootState): RootState {
-  let { notes } = state;
-  const title = "New Note";
+function addCard(state: RootState): RootState {
+  let { cards } = state;
+  const title = "New Card";
   const uuid = uuidv4();
-  const note = {
+  const card = {
     id: uuid,
     title,
     content: "",
     createdAt: Date.now().toString(),
   };
-  notes.set(uuid, note);
+  cards.set(uuid, card);
 
-  return { ...state, notes, currentNoteId: note.id };
+  return { ...state, cards, currentCardId: card.id };
 }
 
-function saveNote(state: RootState, note: Note): RootState {
-  let { notes } = state;
-  notes.set(note.id, note);
-  return { ...state, notes };
+function saveCard(state: RootState, card: Card): RootState {
+  let { cards } = state;
+  cards.set(card.id, card);
+  return { ...state, cards };
 }
 
 let store = createStore(reduce);

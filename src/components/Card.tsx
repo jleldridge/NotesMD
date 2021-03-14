@@ -9,39 +9,39 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MarkdownEditor from "./MarkdownEditor";
-import { Note as TNote, RootState } from "../types";
-import { setCurrentNote, saveNote } from "../redux/actions";
+import { RootState } from "../types";
+import { setCurrentCard, saveCard } from "../redux/actions";
 
 type Props = {
-  noteId: string;
+  cardId: string;
 };
 
-export default function Note(props: Props) {
-  const storedNote = useSelector((state: RootState) =>
-    state.notes.get(props.noteId)
+export default function Card(props: Props) {
+  const storedCard = useSelector((state: RootState) =>
+    state.cards.get(props.cardId)
   );
-  if (!storedNote) return <Text>Error: No note found!</Text>;
+  if (!storedCard) return <Text>Error: No card found!</Text>;
 
   const editing = useSelector(
-    (state: RootState) => state.currentNoteId === props.noteId
+    (state: RootState) => state.currentCardId === props.cardId
   );
 
-  const [content, setContent] = useState(storedNote.content || "");
-  const [title, setTitle] = useState(storedNote.title || "");
+  const [content, setContent] = useState(storedCard.content || "");
+  const [title, setTitle] = useState(storedCard.title || "");
   const dispatch = useDispatch();
 
-  const onTouchNote = useCallback(() => {
-    dispatch(setCurrentNote(props.noteId));
+  const onTouchCard = useCallback(() => {
+    dispatch(setCurrentCard(props.cardId));
   }, [dispatch, props]);
 
   useEffect(() => {
-    dispatch(saveNote({ ...storedNote, content, title }));
+    dispatch(saveCard({ ...storedCard, content, title }));
   }, [editing, title, content]);
 
   return editing ? (
     <View style={styles.editingContainer}>
       <TextInput
-        style={styles.noteTitle}
+        style={styles.cardTitle}
         defaultValue={title}
         onChangeText={(text) => setTitle(text)}
       />
@@ -53,7 +53,7 @@ export default function Note(props: Props) {
       />
     </View>
   ) : (
-    <TouchableHighlight onPress={onTouchNote}>
+    <TouchableHighlight onPress={onTouchCard}>
       <View style={styles.notEditingContainer}>
         <Text>{title}</Text>
         {/* <MarkdownEditor markdown={content} style={styles.markdownSmall} /> */}
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 3,
   },
 
-  noteTitle: {
+  cardTitle: {
     padding: 10,
     fontSize: 24,
     flex: 1,

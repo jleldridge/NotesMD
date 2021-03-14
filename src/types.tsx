@@ -1,9 +1,9 @@
 export type RootState = {
-  notes: Map<string, Note>;
-  currentNoteId?: string;
+  cards: Map<string, Card>;
+  currentCardId?: string;
 };
 
-export type Note = {
+export type Card = {
   id: string;
   title: string;
   content: string;

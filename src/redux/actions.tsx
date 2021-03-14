@@ -1,15 +1,15 @@
-import { Note } from "../types";
+import { Card } from "../types";
 
-export const addNote = () => ({
-  type: "ADD_NOTE",
+export const addCard = () => ({
+  type: "ADD_CARD",
 });
 
-export const setCurrentNote = (id: string) => ({
-  type: "SET_CURRENT_NOTE",
+export const setCurrentCard = (id: string) => ({
+  type: "SET_CURRENT_CARD",
   id,
 });
 
-export const saveNote = (note: Note) => ({
-  type: "SAVE_NOTE",
-  note,
+export const saveCard = (card: Card) => ({
+  type: "SAVE_CARD",
+  card,
 });
