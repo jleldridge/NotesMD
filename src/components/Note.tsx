@@ -28,7 +28,6 @@ export default function Note(props: Props) {
 
   const [content, setContent] = useState(storedNote.content || "");
   const [title, setTitle] = useState(storedNote.title || "");
-  const [renderMarkdown, setRenderMarkdown] = useState(false);
   const dispatch = useDispatch();
 
   const onTouchNote = useCallback(() => {
