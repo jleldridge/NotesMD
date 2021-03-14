@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
-  Switch,
+  ViewStyle,
   Text,
   TextInput,
   TouchableHighlight,
@@ -29,8 +29,8 @@ export default function Note(props: Props) {
   const [content, setContent] = useState(storedNote.content || "");
   const [title, setTitle] = useState(storedNote.title || "");
   const [renderMarkdown, setRenderMarkdown] = useState(false);
-
   const dispatch = useDispatch();
+
   const onTouchNote = useCallback(() => {
     dispatch(setCurrentNote(props.noteId));
   }, [dispatch, props]);
@@ -46,20 +46,23 @@ export default function Note(props: Props) {
         defaultValue={title}
         onChangeText={(text) => setTitle(text)}
       />
-      <View style={styles.noteContainer}>
-        <MarkdownEditor
-          markdown={content}
-          style={styles.markdownLarge}
-          editing={true}
-          onChangeText={(text) => setContent(text)}
-        />
-      </View>
+      {/* <MarkdownEditor
+        markdown={content}
+        style={styles.markdownLarge}
+        editing={true}
+        onChangeText={(text) => setContent(text)} */}
+      <TextInput
+        defaultValue={content}
+        style={styles.markdownLarge}
+        onChangeText={(text) => setContent(text)}
+        multiline={true}
+      />
     </View>
   ) : (
     <TouchableHighlight onPress={onTouchNote}>
       <View style={styles.notEditingContainer}>
         <Text>{title}</Text>
-        <MarkdownEditor markdown={content} style={styles.markdownSmall} />
+        {/* <MarkdownEditor markdown={content} style={styles.markdownSmall} /> */}
       </View>
     </TouchableHighlight>
   );
@@ -68,39 +71,31 @@ export default function Note(props: Props) {
 const styles = StyleSheet.create({
   editingContainer: {
     backgroundColor: "#FFFB82",
-    width: 420,
-    height: 300,
+  },
+
+  notEditingContainer: {
+    backgroundColor: "#FFFB82",
   },
 
   markdownLarge: {
-    width: 400,
-    height: 200,
+    flex: 3,
+    margin: 5,
+    backgroundColor: "#FFFFFF",
   },
 
   markdownSmall: {
-    width: 200,
-    height: 100,
-  },
-
-  noteContainer: {
-    margin: 10,
+    margin: 5,
+    flex: 3,
   },
 
   noteTitle: {
-    width: 400,
-    height: 200,
     padding: 10,
     fontSize: 24,
+    flex: 1,
   },
 
   renderMarkdownSwitch: {
     alignSelf: "flex-end",
     marginRight: 10,
-  },
-
-  notEditingContainer: {
-    backgroundColor: "#FFFB82",
-    width: 210,
-    height: 150,
   },
 });

@@ -21,7 +21,7 @@ export default function NotesList() {
         data={notes}
         renderItem={({ item }) => {
           return (
-            <View style={styles.note}>
+            <View style={styles.noteContainer}>
               <Note noteId={item} />
             </View>
           );
@@ -33,7 +33,7 @@ export default function NotesList() {
 }
 
 const styles = StyleSheet.create({
-  note: {
+  noteContainer: {
     margin: 20,
   },
 });
